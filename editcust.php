@@ -1,18 +1,28 @@
 <?php
 session_start();
-if(!isset($_SESSION["Manager_40228221"]))
+if(!isset($_SESSION["Admin_40228221"]))
 {
-    header("Location: managerlogin.php");
+    header("Location: adminlogin.php");
 }
     include("conn.php");
-    	
-    $queryread = "SELECT bfb_acts.img, bfb_acts.id, bfb_acts.act_name, bfb_reviews.comment FROM bfb_acts INNER JOIN bfb_reviews ON bfb_acts.id=bfb_reviews.act_id";
+    
+    $theid=$_GET['id'];
+    
+    $query= "SELECT * FROM bfb_customer WHERE id='$theid'";
+    
+    $result2= $conn->query($query);
+    
+    if(!$result2){
+        echo $conn->error;
+    }
+    while($row2=mysqli_fetch_assoc($result2)){
         
-    $resultread = $conn -> query($queryread);
-        
-        if(!$resultread){
-            echo $conn-> error;
-        }
+        $username = $row2["username"];
+        $email = $row2["email"];
+        $password = $row2["password"];
+    }
+	
+	
 ?>
  
 <!DOCTYPE html>
@@ -29,7 +39,7 @@ if(!isset($_SESSION["Manager_40228221"]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"> </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
-
+<link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
  
 <body>
@@ -48,56 +58,37 @@ if(!isset($_SESSION["Manager_40228221"]))
 			
 		</div>
 	</div>
-        <h1>Reviews</h1>
         
-      
       
     <p>
             
             
     </p>
-   
-    <?php
-             
-             while($row2 = $resultread->fetch_assoc()){
-                 
-                 $reviewid = $row2["id"];
-                 $actname = $row2["act_name"];
-                 $comment = $row2["comment"];
-                 $img = $row2["img"];
-           echo" <div class='ui text container'>
-  <div class='ui segments>
-    <div class='ui segment'>
-    <div class='ui card'>
-  <div class='image'>
-    <img src='../img/$img'>
-  </div>
-  <div class='content'>
-    <a class='header'>$actname</a>
-    <div class='meta'>
-      <span class='date'></span>
-    </div>
-    <div class='description'>
-      $comment
-    </div>
-  </div>
-  <div class='extra content'>
-    <a>
-      <i class='user icon'></i>
-      
-    </a>
-  </div>
-</div>
-
-
-</div>
     
-</div>
-        
-             
-    ";
-             }
-?>
+    <a href='deletecust.php?id=<?php echo "$theid'"?>> Delete </a>
+        <div class="box edit">
+        <form enctype="multipart/form-data" action="processcust.php" method="POST">
+           
+       <input type="hidden" value="<?php echo $theid;?>" name="changeid"/>
+            </br>
+            <p>Username:
+                <textarea name="username" cols="30"><?php echo $username; ?> </textarea>
+            </p>
+            </br>
+            <p>Email:
+                <textarea name="email" cols="30"><?php echo $email; ?> </textarea>
+            </p>
+            </br>
+            <p>Password:
+                <textarea name="password" cols="30"><?php echo $password; ?> </textarea>
+            </p>
+            </br>
+            <input name="submit" type="submit" value="update customer"/>
+            </div>
+    
+        </form>
+    
+
 		
 
 

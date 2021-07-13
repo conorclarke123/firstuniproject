@@ -1,18 +1,19 @@
 <?php
 session_start();
-if(!isset($_SESSION["Manager_40228221"]))
+if(!isset($_SESSION["Admin_40228221"]))
 {
-    header("Location: managerlogin.php");
+    header("Location: adminlogin.php");
 }
     include("conn.php");
-    	
-    $queryread = "SELECT bfb_acts.img, bfb_acts.id, bfb_acts.act_name, bfb_reviews.comment FROM bfb_acts INNER JOIN bfb_reviews ON bfb_acts.id=bfb_reviews.act_id";
-        
-    $resultread = $conn -> query($queryread);
+    
+    $queryread = "SELECT * FROM bfb_customer";
+        $resultread = $conn -> query($queryread);
         
         if(!$resultread){
             echo $conn-> error;
         }
+	
+	
 ?>
  
 <!DOCTYPE html>
@@ -44,60 +45,46 @@ if(!isset($_SESSION["Manager_40228221"]))
                             <img src='../img/bigfestbelfastlogo.png' width='30%'>
 			</div>
                     <img src="../img/BIG FEST BELFAST TITLE.png">
-			
+			<div class="ten wide column bottom aligned content">
+                            <a class="large ui inverted basic button" href="adminhomepage.php">ADMIN HOME </a>
+                            
+
+			</div>
 			
 		</div>
 	</div>
-        <h1>Reviews</h1>
         
-      
-      
+    </div>
+    <?php 
+    while($row2 = $resultread->fetch_assoc()){
+        $id = $row2["id"];
+        $username = $row2["username"];
+        $email = $row2["email"];
+        $password = $row2["password"];
+        
+        echo"
+        <div class='ui middle aligned stackable grid container'>
+      <div class='row'>
+        <div class='eight wide column'>
+          <h3 class='ui header'>Username: $username</h3>
+          <p>Email: $email</p>
+          <p>Encrypted Password: $password</p>
+        
+        </div>
+        <a href='editcust.php?id=$id'> Edit Customer Details</a>
+        
+        </div>
+      </div>";
+        
+    }
+    ?>
     <p>
             
             
     </p>
-   
-    <?php
-             
-             while($row2 = $resultread->fetch_assoc()){
-                 
-                 $reviewid = $row2["id"];
-                 $actname = $row2["act_name"];
-                 $comment = $row2["comment"];
-                 $img = $row2["img"];
-           echo" <div class='ui text container'>
-  <div class='ui segments>
-    <div class='ui segment'>
-    <div class='ui card'>
-  <div class='image'>
-    <img src='../img/$img'>
-  </div>
-  <div class='content'>
-    <a class='header'>$actname</a>
-    <div class='meta'>
-      <span class='date'></span>
-    </div>
-    <div class='description'>
-      $comment
-    </div>
-  </div>
-  <div class='extra content'>
-    <a>
-      <i class='user icon'></i>
-      
-    </a>
-  </div>
-</div>
-
-
-</div>
     
-</div>
-        
-             
-    ";
-             }
-?>
+    
+
 		
 
 

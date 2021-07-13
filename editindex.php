@@ -1,18 +1,19 @@
 <?php
 session_start();
-if(!isset($_SESSION["Manager_40228221"]))
+if(!isset($_SESSION["Admin_40228221"]))
 {
-    header("Location: managerlogin.php");
+    header("Location: adminlogin.php");
 }
     include("conn.php");
-    	
-    $queryread = "SELECT bfb_acts.img, bfb_acts.id, bfb_acts.act_name, bfb_reviews.comment FROM bfb_acts INNER JOIN bfb_reviews ON bfb_acts.id=bfb_reviews.act_id";
-        
-    $resultread = $conn -> query($queryread);
+    
+    $queryread = "SELECT * FROM bfb_news";
+        $resultread = $conn -> query($queryread);
         
         if(!$resultread){
             echo $conn-> error;
         }
+	
+	
 ?>
  
 <!DOCTYPE html>
@@ -44,60 +45,56 @@ if(!isset($_SESSION["Manager_40228221"]))
                             <img src='../img/bigfestbelfastlogo.png' width='30%'>
 			</div>
                     <img src="../img/BIG FEST BELFAST TITLE.png">
-			
+			<div class="ten wide column bottom aligned content">
+                            <a class="large ui inverted basic button" href="adminhomepage.php">ADMIN HOME </a>
+                            
+
+			</div>
 			
 		</div>
 	</div>
-        <h1>Reviews</h1>
+        <h1>News</h1>
         
-      
-      
+        <?php
+             
+             while($row2 = $resultread->fetch_assoc()){
+                 
+                 $newsid = $row2["id"];
+                 $newsheadline = $row2["headline"];
+                 $newscontent = $row2["content"];
+                 $newsimg = $row2["img"];
+                
+                 echo"
+        <div class='ui middle aligned stackable grid container'>
+      <div class='row'>
+        <div class='eight wide column'>
+          <h3 class='ui header'>$newsheadline</h3>
+          <p>$newscontent</p>
+          
+        </div>
+        <a href='editnews.php?id=$newsid'> Edit </a>
+            
+        <div class='six wide right floated column'>
+        <img src='../img/$newsimg'  class='ui large bordered rounded image'>
+        </div>
+        </div>
+      </div><p>
+      </p>";
+             }
+             ?>
+      <div class='row'>
+        <div class='center aligned column'>
+          <a class='ui huge button'>Reserve Tickets</a>
+        </div>
+      </div>
+    </div>
     <p>
             
             
     </p>
-   
-    <?php
-             
-             while($row2 = $resultread->fetch_assoc()){
-                 
-                 $reviewid = $row2["id"];
-                 $actname = $row2["act_name"];
-                 $comment = $row2["comment"];
-                 $img = $row2["img"];
-           echo" <div class='ui text container'>
-  <div class='ui segments>
-    <div class='ui segment'>
-    <div class='ui card'>
-  <div class='image'>
-    <img src='../img/$img'>
-  </div>
-  <div class='content'>
-    <a class='header'>$actname</a>
-    <div class='meta'>
-      <span class='date'></span>
-    </div>
-    <div class='description'>
-      $comment
-    </div>
-  </div>
-  <div class='extra content'>
-    <a>
-      <i class='user icon'></i>
-      
-    </a>
-  </div>
-</div>
-
-
-</div>
     
-</div>
-        
-             
-    ";
-             }
-?>
+    
+
 		
 
 

@@ -1,18 +1,6 @@
 <?php
-session_start();
-if(!isset($_SESSION["Manager_40228221"]))
-{
-    header("Location: managerlogin.php");
-}
     include("conn.php");
     	
-    $queryread = "SELECT bfb_acts.img, bfb_acts.id, bfb_acts.act_name, bfb_reviews.comment FROM bfb_acts INNER JOIN bfb_reviews ON bfb_acts.id=bfb_reviews.act_id";
-        
-    $resultread = $conn -> query($queryread);
-        
-        if(!$resultread){
-            echo $conn-> error;
-        }
 ?>
  
 <!DOCTYPE html>
@@ -44,11 +32,11 @@ if(!isset($_SESSION["Manager_40228221"]))
                             <img src='../img/bigfestbelfastlogo.png' width='30%'>
 			</div>
                     <img src="../img/BIG FEST BELFAST TITLE.png">
-			
+			<
 			
 		</div>
 	</div>
-        <h1>Reviews</h1>
+        <h1></h1>
         
       
       
@@ -56,48 +44,31 @@ if(!isset($_SESSION["Manager_40228221"]))
             
             
     </p>
-   
-    <?php
-             
-             while($row2 = $resultread->fetch_assoc()){
-                 
-                 $reviewid = $row2["id"];
-                 $actname = $row2["act_name"];
-                 $comment = $row2["comment"];
-                 $img = $row2["img"];
-           echo" <div class='ui text container'>
-  <div class='ui segments>
-    <div class='ui segment'>
-    <div class='ui card'>
-  <div class='image'>
-    <img src='../img/$img'>
-  </div>
-  <div class='content'>
-    <a class='header'>$actname</a>
-    <div class='meta'>
-      <span class='date'></span>
-    </div>
-    <div class='description'>
-      $comment
+    <div class="ui three column doubling grid">
+  <div class="column">
+      <div class="ui segment"><h3>Edit Lineup</h3>
+          <div class="ui buttons">
+              <a class="ui red basic button" href="editlineup.php">Edit</a></div>
     </div>
   </div>
-  <div class='extra content'>
-    <a>
-      <i class='user icon'></i>
-      
-    </a>
+  
+  <div class="column">
+    <div class="ui segment"><h3>View Ticket Holders</h3>
+        <div class="ui buttons">
+            <a class="ui blue basic button" href="viewticketholders.php"> View</a></div>
+    </div>
   </div>
-</div>
-
-
+  
+        <div class="column">
+      <div class="ui segment"><h3>Read Reviews</h3>
+          <div class="ui buttons">
+              <a class="ui red basic button" href="readreviews.php">Read</a></div>
+    </div>
+  </div>
+  
 </div>
     
-</div>
-        
-             
-    ";
-             }
-?>
+
 		
 
 
